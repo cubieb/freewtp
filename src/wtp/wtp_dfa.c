@@ -365,7 +365,15 @@ int wtp_dfa_running(void) {
 				/* Check source */
 				if (g_wtp.state != CAPWAP_DISCOVERY_STATE &&
 				    capwap_compare_ip(&g_wtp.dtls.peeraddr, &fromaddr)) {
-					capwap_logging_debug("CAPWAP packet from unknown WTP when not in DISCOVERY, drop packet");
+					char straddr1[INET6_ADDRSTRLEN];
+					char straddr2[INET6_ADDRSTRLEN];
+					capwap_logging_debug("CAPWAP packet from unknown WTP "
+						"(%s:%d / %s:%d) when not in DISCOVERY, drop packet",
+						capwap_address_to_string(&g_wtp.dtls.peeraddr, straddr1, INET6_ADDRSTRLEN),
+						(int)CAPWAP_GET_NETWORK_PORT(&g_wtp.dtls.peeraddr),
+
+						capwap_address_to_string(&fromaddr, straddr2, INET6_ADDRSTRLEN),
+						(int)CAPWAP_GET_NETWORK_PORT(&fromaddr));
 					continue;		/* Unknown source */
 				}
 
