@@ -869,17 +869,24 @@ int capwap_network_get_localaddress(union sockaddr_capwap* localaddr, union sock
 	ASSERT(localaddr != NULL);
 	ASSERT(peeraddr != NULL);
 
+	char strpeer[INET6_ADDRSTRLEN]; /* debug output */
+	capwap_address_to_string(peeraddr, strpeer, INET6_ADDRSTRLEN);
+
 	/* */
 	memset(localaddr, 0, sizeof(union sockaddr_capwap));
 
 	/* Check output interface */
 	if (iface && !*iface) {
 		iface = NULL;
+		capwap_logging_debug("get laddr for %s; no iface configured.", strpeer);
+	} else {
+		capwap_logging_debug("get laddr for %s; iface=%s.", strpeer, iface);
 	}
 
 	/* Check Loopback address */
 	if (peeraddr->ss.ss_family == AF_INET) {
 		if (peeraddr->sin.sin_addr.s_addr == htonl(INADDR_LOOPBACK)) {
+			capwap_logging_debug("get laddr for %s; AF_INET loopback.", strpeer);
 			if (iface && ((capwap_get_interface_flags(iface) & IFF_LOOPBACK) != IFF_LOOPBACK)) {
 				return -1;
 			}
@@ -891,27 +898,31 @@ int capwap_network_get_localaddress(union sockaddr_capwap* localaddr, union sock
 		}
 	} else if (peeraddr->ss.ss_family == AF_INET6) {
 		if (!memcmp(&peeraddr->sin6.sin6_addr, &in6addr_loopback, sizeof(struct in6_addr))) {
+			capwap_logging_debug("get laddr for %s; AF_INET6 loopback.", strpeer);
 			if (iface && ((capwap_get_interface_flags(iface) & IFF_LOOPBACK) != IFF_LOOPBACK)) {
 				return -1;
 			}
-
 			localaddr->ss.ss_family = AF_INET6;
 			memcpy(&localaddr->sin6.sin6_addr, &in6addr_loopback, sizeof(struct in6_addr));
 			return 0;
 		}
 	} else {
+		capwap_logging_debug("get laddr for %s; family neither AF_INET nor AF_INET6", strpeer);
 		return -1;
 	}
 
 	/* Get address */
 	result = capwap_get_routeaddress(localaddr, peeraddr, iface, RT_TABLE_MAIN);
 	if (result == CAPWAP_ROUTE_NOT_FOUND) {
+		capwap_logging_debug("get laddr for %s; routing table: CAPWAP_ROUTE_NOT_FOUND", strpeer);
 		return -1;
 	} else if (result == CAPWAP_ROUTE_VIA_ADDRESS) {
+		capwap_logging_debug("get laddr for %s; routing table: CAPWAP_ROUTE_VIA_ADDRESS", strpeer);
 		union sockaddr_capwap tempaddr;
 
 		result = capwap_get_routeaddress(&tempaddr, localaddr, iface, RT_TABLE_MAIN);
 		if (result != CAPWAP_ROUTE_LOCAL_ADDRESS) {
+			capwap_logging_debug("get laddr for %s; routing table: CAPWAP_ROUTE_VIA_ADDRESS w/o success for laddr", strpeer);
 			return -1;
 		}
 

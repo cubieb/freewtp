@@ -17,6 +17,10 @@ static int wtp_join_prefered_ac()
 		/* Found in configuration file the AC address */
 		peeraddr = capwap_array_get_item_pointer(g_wtp.acpreferedarray,
 							 g_wtp.acpreferedselected);
+		char strpeer[INET6_ADDRSTRLEN]; /* debug */
+		capwap_address_to_string(peeraddr, strpeer, INET6_ADDRSTRLEN);
+		capwap_logging_debug("found AC address %s:%d in configuration",
+			strpeer, (int)CAPWAP_GET_NETWORK_PORT(peeraddr));
 
 		/* Next AC */
 		g_wtp.acpreferedselected++;
