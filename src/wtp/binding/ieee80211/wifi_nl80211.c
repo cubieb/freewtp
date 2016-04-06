@@ -153,7 +153,7 @@ static int nl80211_send_and_recv(struct nl_sock *nl,
 
 	result = 1;
 	while (result > 0) {
-		nl_recvmsgs(nl, cb);
+		result = nl_recvmsgs(nl, cb);
 	}
 
 	nl_cb_put(cb);

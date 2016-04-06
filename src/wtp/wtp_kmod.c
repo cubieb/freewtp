@@ -144,7 +144,7 @@ static int wtp_kmod_send_and_recv(struct nl_sock* nl, struct nl_cb* nl_cb, struc
 
 	result = 1;
 	while (result > 0) {
-		nl_recvmsgs(nl, cb);
+		result = nl_recvmsgs(nl, cb);
 	}
 
 	nl_cb_put(cb);
