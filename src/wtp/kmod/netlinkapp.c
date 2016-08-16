@@ -10,7 +10,7 @@
 #include <linux/jhash.h>
 
 #include <net/net_namespace.h>
-#include <net/genetlink.h>
+#include <linux/genetlink.h>
 #include <net/mac80211.h>
 #include <net/netns/generic.h>
 
