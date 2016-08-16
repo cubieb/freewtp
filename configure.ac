@@ -177,7 +177,7 @@ AC_CHECK_LIB([pthread], [pthread_create], [PTHREAD_LIBS="-lpthread"], [AC_MSG_ER
 AC_CHECK_LIB([ev], [ev_run],, [AC_MSG_ERROR(Required library ev missing)])
 
 # Check SSL library
-PKG_CHECK_MODULES([WOLFSSL], [wolfssl >= 3.8.0], [have_wolfssl_ssl="yes"], [have_wolfssl_ssl="no"])
+PKG_CHECK_MODULES([CYASSL], [cyassl >= 3.8.0], [have_wolfssl_ssl="yes"], [have_wolfssl_ssl="no"])
 
 # Check JSON library
 if test "${enable_ac}" = "yes"; then

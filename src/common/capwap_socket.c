@@ -2,8 +2,8 @@
 #include "capwap_network.h"
 #include "capwap_socket.h"
 
-#include <wolfssl/options.h>
-#include <wolfssl/ssl.h>
+#include <cyassl/options.h>
+#include <cyassl/ssl.h>
 
 /* */
 static int capwap_socket_nonblocking(int sock, int nonblocking) {

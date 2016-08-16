@@ -1,9 +1,9 @@
 #include "capwap.h"
 #include "capwap_dtls.h"
 #include "capwap_protocol.h"
-#include <wolfssl/options.h>
-#include <wolfssl/ssl.h>
-#include <wolfssl/wolfcrypt/sha.h>
+#include <cyassl/options.h>
+#include <cyassl/ssl.h>
+#include <cyassl/ctaocrypt/sha.h>
 
 /* */
 static const char g_char2hex[] = {
