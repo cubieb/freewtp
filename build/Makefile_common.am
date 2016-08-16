@@ -103,6 +103,8 @@ capwap_SOURCES = $(top_srcdir)/src/common/capwap.c \
 	$(top_srcdir)/src/common/capwap_element_80211_wtpradioinformation.c \
 	$(top_srcdir)/src/common/capwap_element_80211n_radioconf.c \
 	$(top_srcdir)/src/common/capwap_element_80211n_station_information.c \
+	$(top_srcdir)/src/common/capwap_element_vendor_travelping_80211_encryption_capability.c \
+	$(top_srcdir)/src/common/capwap_element_vendor_travelping_80211_update_key.c \
 	$(top_srcdir)/src/common/capwap_element_vendor_travelping_wtp_timestamp.c
 
 if DEBUG_BUILD
